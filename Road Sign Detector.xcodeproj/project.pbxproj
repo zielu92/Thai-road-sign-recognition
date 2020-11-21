@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1F150503254FAB3900D7F533 /* ThaiSignsV2 1.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F150502254FAB3900D7F533 /* ThaiSignsV2 1.mlmodel */; };
+		1F23D2CB255CBDD7001C2AEE /* ThaiRoadSignsV3 1.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1F23D2CA255CBDD7001C2AEE /* ThaiRoadSignsV3 1.mlmodel */; };
+		1F92C35F2564064B0029767F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F92C35E2564064B0029767F /* Assets.xcassets */; };
 		AA1D09D6237E9FED008A335B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D09D5237E9FED008A335B /* AppDelegate.swift */; };
 		AA1D09D8237E9FED008A335B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D09D7237E9FED008A335B /* SceneDelegate.swift */; };
 		AA1D09DA237E9FED008A335B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D09D9237E9FED008A335B /* ViewController.swift */; };
 		AA1D09DD237E9FED008A335B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA1D09DB237E9FED008A335B /* Main.storyboard */; };
-		AA1D09DF237E9FF0008A335B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA1D09DE237E9FF0008A335B /* Assets.xcassets */; };
 		AA1D09E2237E9FF0008A335B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA1D09E0237E9FF0008A335B /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1F150502254FAB3900D7F533 /* ThaiSignsV2 1.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "ThaiSignsV2 1.mlmodel"; sourceTree = "<group>"; };
+		1F23D2CA255CBDD7001C2AEE /* ThaiRoadSignsV3 1.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "ThaiRoadSignsV3 1.mlmodel"; sourceTree = "<group>"; };
+		1F92C35E2564064B0029767F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA1D09D2237E9FED008A335B /* Road Sign Detector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Road Sign Detector.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1D09D5237E9FED008A335B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA1D09D7237E9FED008A335B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AA1D09D9237E9FED008A335B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AA1D09DC237E9FED008A335B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AA1D09DE237E9FF0008A335B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA1D09E1237E9FF0008A335B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AA1D09E3237E9FF0008A335B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,12 +58,12 @@
 		AA1D09D4237E9FED008A335B /* Road Sign Detector */ = {
 			isa = PBXGroup;
 			children = (
-				1F150502254FAB3900D7F533 /* ThaiSignsV2 1.mlmodel */,
+				1F92C35E2564064B0029767F /* Assets.xcassets */,
+				1F23D2CA255CBDD7001C2AEE /* ThaiRoadSignsV3 1.mlmodel */,
 				AA1D09D5237E9FED008A335B /* AppDelegate.swift */,
 				AA1D09D7237E9FED008A335B /* SceneDelegate.swift */,
 				AA1D09D9237E9FED008A335B /* ViewController.swift */,
 				AA1D09DB237E9FED008A335B /* Main.storyboard */,
-				AA1D09DE237E9FF0008A335B /* Assets.xcassets */,
 				AA1D09E0237E9FF0008A335B /* LaunchScreen.storyboard */,
 				AA1D09E3237E9FF0008A335B /* Info.plist */,
 			);
@@ -129,7 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA1D09E2237E9FF0008A335B /* LaunchScreen.storyboard in Resources */,
-				AA1D09DF237E9FF0008A335B /* Assets.xcassets in Resources */,
+				1F92C35F2564064B0029767F /* Assets.xcassets in Resources */,
 				AA1D09DD237E9FED008A335B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,9 +141,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F150503254FAB3900D7F533 /* ThaiSignsV2 1.mlmodel in Sources */,
 				AA1D09DA237E9FED008A335B /* ViewController.swift in Sources */,
 				AA1D09D6237E9FED008A335B /* AppDelegate.swift in Sources */,
+				1F23D2CB255CBDD7001C2AEE /* ThaiRoadSignsV3 1.mlmodel in Sources */,
 				AA1D09D8237E9FED008A335B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -30,10 +30,10 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
 
     lazy var detectionRequest: VNCoreMLRequest = {
         do {
-            let model = try VNCoreMLModel(for: ThaiSignsV2_1().model)
+            let model = try VNCoreMLModel(for: ThaiRoadSignsV3_1().model)
             
             let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
-                self?.processDetections(for: request, error: error)
+                self?.processDispatcher(for: request, error: error)
             })
             request.imageCropAndScaleOption = .scaleFit
             return request
@@ -49,7 +49,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         present(vc, animated: true)
     }
     
-    private func updateDetections(for image: UIImage) {
+    private func checkPhoto(for image: UIImage) {
 
         let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))
         guard let ciImage = CIImage(image: image) else { fatalError("Unable to create \(CIImage.self) from \(image).") }
@@ -64,7 +64,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
-    private func processDetections(for request: VNRequest, error: Error?) {
+    private func processDispatcher(for request: VNRequest, error: Error?) {
         DispatchQueue.main.async {
             guard let results = request.results else {
                 print("Unable to detect.\n\(error!.localizedDescription)")
@@ -72,11 +72,11 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
             }
         
             let detections = results as! [VNRecognizedObjectObservation]
-            self.drawDetectionsOnPreview(detections: detections)
+            self.detectionsOnImage(detections: detections)
         }
     }
     
-    func drawDetectionsOnPreview(detections: [VNRecognizedObjectObservation]) {
+    func detectionsOnImage(detections: [VNRecognizedObjectObservation]) {
         //init ADDED
         self.photoCroped1.image = nil
         self.label1.text = ""
@@ -100,9 +100,9 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         UIGraphicsBeginImageContextWithOptions(imageSize, false, scale)
 
         image.draw(at: CGPoint.zero)
-
+        var countObjects = 0
         for  (index, detection) in detections.enumerated() {
-            
+            countObjects=countObjects+1
             //Drawing Rectangles FIXED
             let boundingBox = detection.boundingBox
             let rectangle = CGRect(x: boundingBox.minX*image.size.width-10, y: (1-boundingBox.minY-boundingBox.height)*image.size.height-20, width: boundingBox.width*image.size.width*1.1, height: boundingBox.height*image.size.height*1.1)
@@ -143,7 +143,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
             request.usesLanguageCorrection = false
             //OCR Request ADDED
             let requests = [request]
-            DispatchQueue.global(qos: .userInitiated).async {
+            //more parallel
+            DispatchQueue.main.async(qos: .userInitiated) {
                 let handler = VNImageRequestHandler(cgImage: cropedCGI, options: [:])
                 try? handler.perform(requests)
             }
@@ -174,6 +175,8 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         self.photoImageView?.image = newImage
+        
+        print(countObjects)
 
     }
     //Croping function ADDED
@@ -194,6 +197,6 @@ extension ViewController: UIImagePickerControllerDelegate {
         }
 
         self.photoImageView?.image = image
-        updateDetections(for: image)
+        checkPhoto(for: image)
     }
 }
