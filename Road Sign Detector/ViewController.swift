@@ -12,7 +12,7 @@ import Vision
 import ImageIO
 
 class ViewController: UIViewController, UINavigationControllerDelegate {
-    //init var from storyboard ADDED
+    //ADDED init var from main.storyboard
     @IBOutlet weak var photoImageView: UIImageView?
     @IBOutlet weak var photoCroped1: UIImageView!
     @IBOutlet weak var photoCroped2: UIImageView!
@@ -77,10 +77,10 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     func detectionsOnImage(detections: [VNRecognizedObjectObservation]) {
-        //init ADDED
+        //ADDED init state for main.storyboard
         self.photoCroped1.image = nil
         self.label1.text = ""
-        self.ocrLabel2.text = ""
+        self.ocrLabel1.text = ""
         self.photoCroped2.image = nil
         self.label2.text = ""
         self.ocrLabel2.text = ""
@@ -103,53 +103,20 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         var countObjects = 0
         for  (index, detection) in detections.enumerated() {
             countObjects=countObjects+1
-            //Drawing Rectangles FIXED
+            //FIX Drawing Rectangles
             let boundingBox = detection.boundingBox
             let rectangle = CGRect(x: boundingBox.minX*image.size.width-10, y: (1-boundingBox.minY-boundingBox.height)*image.size.height-20, width: boundingBox.width*image.size.width*1.1, height: boundingBox.height*image.size.height*1.1)
             UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).setFill()
             UIRectFillUsingBlendMode(rectangle, CGBlendMode.multiply)
             
-            //CROPING ADDED
+            //ADD CROPING
             let cropedCGI = cropImage(image: image, rect: rectangle)
             let croped = UIImage(cgImage: cropedCGI)
-            //OCR ADDED
-            var OCRtext = ""
-            let request = VNRecognizeTextRequest { request, error in
-                guard let observations = request.results as? [VNRecognizedTextObservation] else {
-                    fatalError("Received invalid observations")
-                }
-                for observation in observations {
-                    guard let bestCandidate = observation.topCandidates(1).first else {
-                        OCRtext = " "
-                        continue
-                    }
-                    OCRtext += " \(bestCandidate.string)"
-                }
-                //DISPLAYING OCR RESULTS ADDED
-                switch index {
-                    case 0:
-                        self.ocrLabel1.text = OCRtext
-                    case 1:
-                        self.ocrLabel2.text = OCRtext
-                    case 2:
-                        self.ocrLabel3.text = OCRtext
-                    case 3:
-                        self.ocrLabel4.text = OCRtext
-                default:
-                    print("No found")
-                }
-            }
-            request.recognitionLevel = .accurate
-            request.usesLanguageCorrection = false
-            //OCR Request ADDED
-            let requests = [request]
-            //more parallel
-            DispatchQueue.main.async(qos: .userInitiated) {
-                let handler = VNImageRequestHandler(cgImage: cropedCGI, options: [:])
-                try? handler.perform(requests)
-            }
             
-            //DISPLAYING ADDED
+            //ADD OCR
+            ocr(cropedCGI: cropedCGI, index: index)
+            //ADD Displaying images and labels on storyboard
+            
             switch index {
                 case 0:
                     self.photoCroped1.image = croped
@@ -179,10 +146,48 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         print(countObjects)
 
     }
-    //Croping function ADDED
+    //ADD Croping method
     func cropImage(image: UIImage, rect: CGRect) -> CGImage {
         let croppedCGImage: CGImage = image.cgImage!.cropping(to: rect)!
         return croppedCGImage
+    }
+    //ADD ocr method
+    func ocr(cropedCGI: CGImage, index: Int) {
+        var OCRtext = ""
+        let request = VNRecognizeTextRequest { request, error in
+            guard let observations = request.results as? [VNRecognizedTextObservation] else {
+                fatalError("Received invalid observations")
+            }
+            for observation in observations {
+                guard let bestCandidate = observation.topCandidates(1).first else {
+                    OCRtext = " "
+                    continue
+                }
+                OCRtext += " \(bestCandidate.string)"
+            }
+            //DISPLAYING OCR RESULTS
+            switch index {
+                case 0:
+                    self.ocrLabel1.text = OCRtext
+                case 1:
+                    self.ocrLabel2.text = OCRtext
+                case 2:
+                    self.ocrLabel3.text = OCRtext
+                case 3:
+                    self.ocrLabel4.text = OCRtext
+            default:
+                print("No found")
+            }
+        }
+        request.recognitionLevel = .accurate
+        request.usesLanguageCorrection = false
+        let requests = [request]
+        //more parallel (speed improvment)
+        DispatchQueue.main.async(qos: .userInitiated) {
+            let handler = VNImageRequestHandler(cgImage: cropedCGI, options: [:])
+            try? handler.perform(requests)
+        }
+        
     }
     
 }
