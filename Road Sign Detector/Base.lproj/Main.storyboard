@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,7 +22,9 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="h69-KI-fzm"/>
                                 </constraints>
-                                <state key="normal" title=" Detect from photo" image="photo" catalog="system"/>
+                                <state key="normal" title=" Detect from photo" image="photo" catalog="system">
+                                    <color key="titleColor" systemColor="systemFillColor"/>
+                                </state>
                                 <connections>
                                     <action selector="testPhotoWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D7U-vp-848"/>
                                 </connections>
@@ -68,9 +70,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DGN-WG-DTH">
-                                <rect key="frame" x="233" y="649" width="161" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DGN-WG-DTH">
+                                <rect key="frame" x="233" y="688" width="161" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -103,6 +104,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpi-th-7VP">
+                                <rect key="frame" x="20" y="823" width="374" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -110,9 +117,13 @@
                             <constraint firstItem="R9v-as-VxV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="3nI-o7-U6I"/>
                             <constraint firstItem="R9v-as-VxV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="7d5-wp-NlW"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="558-Ka-ORG" secondAttribute="bottom" id="8ja-xj-hxs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xpi-th-7VP" secondAttribute="bottom" constant="39" id="9mZ-XN-2uK"/>
+                            <constraint firstItem="xpi-th-7VP" firstAttribute="top" secondItem="DGN-WG-DTH" secondAttribute="bottom" constant="135" id="ArQ-cb-jnH"/>
                             <constraint firstItem="558-Ka-ORG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Aw1-r5-smU"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xpi-th-7VP" secondAttribute="trailing" constant="20" id="CNK-5M-y5r"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="558-Ka-ORG" secondAttribute="trailing" id="dOX-BF-EOC"/>
                             <constraint firstItem="R9v-as-VxV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hNK-lR-m4O"/>
+                            <constraint firstItem="xpi-th-7VP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="pj6-JC-CMF"/>
                             <constraint firstAttribute="bottom" secondItem="R9v-as-VxV" secondAttribute="bottom" constant="420" id="tIC-Rv-ecb"/>
                         </constraints>
                     </view>
@@ -130,6 +141,7 @@
                         <outlet property="photoCroped3" destination="mnd-qi-9Cy" id="6VD-AO-s8p"/>
                         <outlet property="photoCroped4" destination="eaG-CX-jC4" id="bDl-Os-bwe"/>
                         <outlet property="photoImageView" destination="R9v-as-VxV" id="qXV-LN-N4z"/>
+                        <outlet property="timeLabel" destination="xpi-th-7VP" id="vo7-Xc-Egj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -141,6 +153,9 @@
         <image name="photo" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemFillColor">
+            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -27,7 +27,9 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet weak var ocrLabel2: UILabel!
     @IBOutlet weak var ocrLabel3: UILabel!
     @IBOutlet weak var ocrLabel4: UILabel!
-
+    
+    @IBOutlet weak var timeLabel: UILabel!
+    
     lazy var detectionRequest: VNCoreMLRequest = {
         do {
             let model = try VNCoreMLModel(for: ThaiRoadSignsV3_1().model)
@@ -90,7 +92,9 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         self.photoCroped4.image = nil
         self.label4.text = ""
         self.ocrLabel4.text = ""
+        self.timeLabel.text = ""
         
+        let start = CFAbsoluteTimeGetCurrent()
         guard let image = self.photoImageView?.image else {
             return
         }
@@ -144,14 +148,16 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         self.photoImageView?.image = newImage
         
         print(countObjects)
-
+        let diff = CFAbsoluteTimeGetCurrent() - start
+        print("Took \(diff) seconds")
+        self.timeLabel.text = "Found \(countObjects) obj in  \(diff) s"
     }
     //ADD Croping method
     func cropImage(image: UIImage, rect: CGRect) -> CGImage {
         let croppedCGImage: CGImage = image.cgImage!.cropping(to: rect)!
         return croppedCGImage
     }
-    //ADD ocr method
+    //ADD OCR method
     func ocr(cropedCGI: CGImage, index: Int) {
         var OCRtext = ""
         let request = VNRecognizeTextRequest { request, error in
@@ -176,7 +182,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
                 case 3:
                     self.ocrLabel4.text = OCRtext
             default:
-                print("No found")
+                print("Not found")
             }
         }
         request.recognitionLevel = .accurate
