@@ -10,12 +10,11 @@ Is a demo project to recognize Thai road signs from the picture and read numbers
   - Speed limit
   - Stop
 
+#Model can be found Road Sign Detector/ThaiRoadSignsV3 1.mlmodel. 
+#Project of MLMoodel can be found Road Sign Detector/ThaiRoadSignsV3.mlproject
+
 ### OCR
 Vision framework is used to read letters/numbers on the signs. Vision doesn't support Thai language, so it can be changed or improved by implementing OCR, which support Thai language.
-
-  - Type some Markdown on the left
-  - See HTML in the right
-  - Magic
 
 
 ### Screenshots

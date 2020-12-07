@@ -5,7 +5,7 @@
 //  Created by Tomasz Baranowicz on 15/11/2019.
 //  Copyright © 2019 Tomasz Baranowicz. All rights reserved.
 //
-
+//Loading libraries
 import UIKit
 import CoreML
 import Vision
@@ -30,6 +30,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     
     @IBOutlet weak var timeLabel: UILabel!
     
+    //Load model using lazy method
     lazy var detectionRequest: VNCoreMLRequest = {
         do {
             let model = try VNCoreMLModel(for: ThaiRoadSignsV3_1().model)
@@ -43,7 +44,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
             fatalError("Failed to load ML model: \(error)")
         }
     }()
-    
+    //Button to open photo library
     @IBAction func testPhoto(sender: UIButton) {
         let vc = UIImagePickerController()
         vc.sourceType = .photoLibrary
@@ -51,6 +52,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         present(vc, animated: true)
     }
     
+    //Checking if loaded photo is correct and extract values like orientation
     private func checkPhoto(for image: UIImage) {
 
         let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))
@@ -65,7 +67,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
             }
         }
     }
-    
+    //queuing detection
     private func processDispatcher(for request: VNRequest, error: Error?) {
         DispatchQueue.main.async {
             guard let results = request.results else {
@@ -77,7 +79,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
             self.detectionsOnImage(detections: detections)
         }
     }
-    
+    //Detecting object on picture
     func detectionsOnImage(detections: [VNRecognizedObjectObservation]) {
         //ADDED init state for main.storyboard
         self.photoCroped1.image = nil
@@ -93,34 +95,35 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
         self.label4.text = ""
         self.ocrLabel4.text = ""
         self.timeLabel.text = ""
-        
+        //start timer
         let start = CFAbsoluteTimeGetCurrent()
+        var countObjects = 0
+        //set image on UI
         guard let image = self.photoImageView?.image else {
             return
         }
         
         let imageSize = image.size
-        let scale: CGFloat = 1.6
+        let scale: CGFloat = 0
         UIGraphicsBeginImageContextWithOptions(imageSize, false, scale)
-
         image.draw(at: CGPoint.zero)
-        var countObjects = 0
         for  (index, detection) in detections.enumerated() {
             countObjects=countObjects+1
-            //FIX Drawing Rectangles
+            //FIX Drawing Rectangles (starts from bottom left corner)
             let boundingBox = detection.boundingBox
             let rectangle = CGRect(x: boundingBox.minX*image.size.width-10, y: (1-boundingBox.minY-boundingBox.height)*image.size.height-20, width: boundingBox.width*image.size.width*1.1, height: boundingBox.height*image.size.height*1.1)
             UIColor(red: 0, green: 1, blue: 0, alpha: 0.5).setFill()
             UIRectFillUsingBlendMode(rectangle, CGBlendMode.multiply)
             
-            //ADD CROPING
+            //ADDED CROPING
             let cropedCGI = cropImage(image: image, rect: rectangle)
             let croped = UIImage(cgImage: cropedCGI)
             
-            //ADD OCR
+            //ADDED OCR
             ocr(cropedCGI: cropedCGI, index: index)
             //ADD Displaying images and labels on storyboard
             
+            //Display croped image and label on UI
             switch index {
                 case 0:
                     self.photoCroped1.image = croped
@@ -139,25 +142,26 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
                     self.label4.text = detection.labels.first?.identifier
                     self.ocrLabel4.text = "OCR loading..."
             default:
-                print("No found")
+                print("Not found")
             }
         }
         
+        //display the new image with drawed ractangle on the detected object
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         self.photoImageView?.image = newImage
         
-        print(countObjects)
+        //stop timer calculate difference
         let diff = CFAbsoluteTimeGetCurrent() - start
         print("Took \(diff) seconds")
         self.timeLabel.text = "Found \(countObjects) obj in  \(diff) s"
     }
-    //ADD Croping method
+    //ADDED Croping method
     func cropImage(image: UIImage, rect: CGRect) -> CGImage {
         let croppedCGImage: CGImage = image.cgImage!.cropping(to: rect)!
         return croppedCGImage
     }
-    //ADD OCR method
+    //ADDED OCR method
     func ocr(cropedCGI: CGImage, index: Int) {
         var OCRtext = ""
         let request = VNRecognizeTextRequest { request, error in
@@ -198,7 +202,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
     
 }
 
-
+//LOAD UI
 extension ViewController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
